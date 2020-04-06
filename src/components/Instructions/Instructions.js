@@ -39,6 +39,9 @@ class Instructions extends Component {
     });
   }
   create() {
+    store.dispatch({
+      type: CREATE_RECIPE,
+    });
     // Create new recipe in Redux state
   }
   render() {
