@@ -20,7 +20,7 @@ class Name extends Component {
   }
   componentDidMount() {
     console.dir("componentdidmount store", store);
-    this.unsubscribe = store.subcribe(this.storeSubscriber);
+    this.unsubscribe = store.subscribe(this.storeSubscriber.bind(this));
   }
   componentWillUnmount() {
     if (this.unsubscribe) {
@@ -46,7 +46,7 @@ class Name extends Component {
     });
     store.dispatch({
       type: UPDATE_CATEGORY,
-      payload: this.state.name,
+      payload: this.state.category,
     });
   }
   render() {

@@ -2,15 +2,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import RecipeCard from "./../RecipeCard/RecipeCard";
 import "./Home.css";
-
+import store from "../../store";
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: []
+      recipes: store.getState().recipes,
     };
   }
-
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() => {
+      this.setState({
+        recipes: store.getState().recipes,
+      });
+    });
+  }
   render() {
     const recipes = this.state.recipes.map((recipe, i) => {
       return (
