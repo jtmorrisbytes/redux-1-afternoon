@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Name.css";
-import { UPDATE_CATEGORY, UPDATE_NAME } from "../../store";
-import store from "../../store";
+import store, { UPDATE_CATEGORY, UPDATE_NAME } from "../../store";
 class Name extends Component {
   constructor(props) {
     const reduxStore = store.getState();
@@ -20,6 +19,7 @@ class Name extends Component {
     });
   }
   componentDidMount() {
+    console.dir("componentdidmount store", store);
     this.unsubscribe = store.subcribe(this.storeSubscriber);
   }
   componentWillUnmount() {
