@@ -13,7 +13,7 @@ const initialState = {
   authorFirst: "",
   authorLast: "",
   instructions: [],
-  recipes: [],
+  recipes: []
 };
 
 function reducer(state = initialState, action) {
@@ -33,16 +33,24 @@ function reducer(state = initialState, action) {
     case ADD_INSTRUCTION:
       return { ...state, instructions: [...state.instructions, payload] };
     case CREATE_RECIPE:
-      throw new ERROR("FINISH IMPLEMENTING CREATE_RECIPE");
       return {
-        ...state,
+        name: "",
+        category: "",
+        instructions: [],
+        ingredients: [],
+        authorFirst: "",
+        authorLast: "",
         recipes: [
           ...state.recipes,
           {
             name: state.name,
             category: state.category,
-          },
-        ],
+            ingredients: state.ingredients,
+            instructions: state.instructions,
+            authorFirst: state.authorFirst,
+            authorLast: state.authorLast
+          }
+        ]
       };
     default:
       return state;

@@ -7,32 +7,37 @@ class Ingredients extends Component {
     super(props);
     this.state = {
       ingredients: reduxStore.ingredients,
-      input: "",
+      input: ""
     };
   }
   handleChange(val) {
     this.setState({
-      input: val,
+      input: val
     });
   }
+  unsubscribe() {}
   componentDidMount() {
+    console.log("subscribe to redux");
     this.unsubscribe = store.subscribe(() => {
+      console.log("ingredients recieved redux update");
+      let state = store.getState();
+      console.log("ingredients recieved redux update:", state.ingredients);
       this.setState({ ingredients: store.getState().ingredients });
     });
   }
   componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
+    // if (this.unsubscribe) {
+    //   this.unsubscribe();
+    // }
   }
   addIngredient() {
     // Send data to Redux state
     store.dispatch({
       type: ADD_INGREDIENT,
-      payload: this.state.input,
+      payload: this.state.input
     });
     this.setState({
-      input: "",
+      input: ""
     });
   }
   render() {
@@ -48,16 +53,24 @@ class Ingredients extends Component {
         <div className="add_container">
           <input
             value={this.state.input}
-            onChange={(e) => this.handleChange(e.target.value)}
+            onChange={e => this.handleChange(e.target.value)}
           />
           <button className="add_button" onClick={() => this.addIngredient()}>
             Add Ingredient
           </button>
         </div>
-        <Link to="/add/author">
+        <Link
+          onClickCapture={() => {
+            this.unsubscribe();
+          }}
+          to="/add/author">
           <button className="left_button">Previous</button>
         </Link>
-        <Link to="/add/instructions">
+        <Link
+          onClickCapture={() => {
+            this.unsubscribe();
+          }}
+          to="/add/instructions">
           <button className="right_button">Next</button>
         </Link>
       </div>

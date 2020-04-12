@@ -1,46 +1,47 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import store, { ADD_INSTRUCTION } from "../../store";
+import store, { ADD_INSTRUCTION, CREATE_RECIPE } from "../../store";
 class Instructions extends Component {
   constructor(props) {
     const reduxStore = store.getState();
     super(props);
     this.state = {
       instructions: reduxStore.instructions,
-      input: "",
+      input: ""
     };
+    this.updateStateFromRedux.bind(this);
   }
-  componentDidMount() {
-    let reduxStore = store.getState();
-    this.unsubscribe = store.subscribe(() => {
-      this.setState({
-        instructions: reduxStore.instructions,
-      });
+  updateStateFromRedux() {
+    this.setState({
+      instructions: store.getState().instructions
     });
   }
+  componentDidMount() {
+    console.log("instructions mounting");
+    this.unsubscribe = store.subscribe(this.updateStateFromRedux.bind(this));
+  }
   componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
+    console.log("instructions unmounting");
+    this.unsubscribe();
   }
   handleChange(val) {
     this.setState({
-      input: val,
+      input: val
     });
   }
   addInstruction() {
     // Send data to Redux state
     store.dispatch({
       type: ADD_INSTRUCTION,
-      payload: this.state.input,
+      payload: this.state.input
     });
     this.setState({
-      input: "",
+      input: ""
     });
   }
   create() {
     store.dispatch({
-      type: CREATE_RECIPE,
+      type: CREATE_RECIPE
     });
     // Create new recipe in Redux state
   }
@@ -57,7 +58,7 @@ class Instructions extends Component {
         <div className="add_container">
           <input
             value={this.state.input}
-            onChange={(e) => this.handleChange(e.target.value)}
+            onChange={e => this.handleChange(e.target.value)}
           />
           <button className="add_button" onClick={() => this.addInstruction()}>
             Add Instruction

@@ -7,15 +7,20 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: store.getState().recipes,
+      recipes: store.getState().recipes
     };
   }
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => {
       this.setState({
-        recipes: store.getState().recipes,
+        recipes: store.getState().recipes
       });
     });
+  }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   }
   render() {
     const recipes = this.state.recipes.map((recipe, i) => {
